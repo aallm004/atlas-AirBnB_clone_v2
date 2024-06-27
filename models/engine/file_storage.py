@@ -22,11 +22,9 @@ class FileStorage:
 
     def delete(self, obj=None):
         """Deletes obj from __objects if exists"""
-        if obj:
-            key = "{}:{}".format(obj.__class__.__name__, obj.id)
-            if key in self.__objects:
-                del self.__objects[key]
-                self.save
+        if obj is not None:
+            del self.__objects[obj.__class__.__name__ + '.' + obj.id]
+            self.save
 
     def all(self, cls=None):
         """Returns a list of objs of specific class.
