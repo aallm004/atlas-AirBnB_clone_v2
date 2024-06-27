@@ -7,6 +7,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 from os import getenv
 
+time = "%Y-%m-%dT%H:%M:%S.%f"
+
 Base = declarative_base()
 
 class BaseModel:
@@ -14,10 +16,9 @@ class BaseModel:
     __abstract__ = True
 
     id = Column(String(60), primary_key=True, nullable=False)
-    created_at = Column(DateTime, nullable=False,
-                        default=datetime.utcnow)
-    updated_at = Column(DateTime, nullable=False,
-                        default=datetime.utcnow)
+    created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    updated_at = Column(DateTime, nullable=False, default=datetime.utcnow)
+    
     def __init__(self, *args, **kwargs):
         """Instatntiates a new model"""
         if not kwargs:
@@ -25,14 +26,14 @@ class BaseModel:
             self.id = str(uuid.uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
-            storage.new(self)
-        else:
-            kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                     '%Y-%m-%dT%H:%M:%S.%f')
-            del kwargs['__class__']
-            self.__dict__.update(kwargs)
+            for key, value in kwargs.items():
+                if key == '__class__':
+                    continue
+            setattr(self, key, value)
+            if type(self.created_at) is str:
+                self.created_at = datetime.strptime(self.created_at, time)
+            if type(self.updated_at) is str:
+                self.updated_at = datetime.strptime(self.updated_at, time)
 
     def __str__(self):
         """Returns a string representation of the instance"""
