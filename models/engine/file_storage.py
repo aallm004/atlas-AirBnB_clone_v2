@@ -23,15 +23,12 @@ class FileStorage():
     def file_path(self):
         return self.__file_path
 
-    def all(self, cls=None):
+    def all(self):
         """Returns the dictionary __objects.
         This method provides access to the dictionary "__objects" that
         stores all objects managed by the instance "FileStorage"."""
-        if cls is None:
-            return list(self.__objects.values())
-        else:
-            return [obj for obj in self.__objects.values() if
-                    isinstance(obj, cls)]
+
+        return self.__objects
 
     def new(self, obj):
         """This method adds a new object to the __objects dictionary.
@@ -76,7 +73,8 @@ class FileStorage():
                     self.__objects[key] = Review(**value)
 
     def delete(self, obj=None):
-        """Deletes obj from __objects if exists"""
-        if obj is not None:
-            del self.__objects[obj.__class__.__name__ + '.' + obj.id]
-            self.save
+        """Deletes an object from storage"""
+        if obj is None:
+            return
+        key = obj.to_dict()['__class__'] + '.' + obj.id
+        del self.all()[key]
