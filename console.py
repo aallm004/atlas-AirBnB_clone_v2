@@ -132,7 +132,7 @@ class HBNBCommand(cmd.Cmd):
 
             new_instance = self.classesclass_name
             new_instance.save()
-            print(f"Instance created with ID: {new_instance.id}")
+            print(f"{new_instance.id}")
 
         except (ValueError, Exception) as e:
             print(f"** Error: {e} **")
