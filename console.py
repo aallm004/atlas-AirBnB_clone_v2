@@ -13,7 +13,7 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 import shlex
-from sqlalchemy import Column, ForeignKey
+from sqlalchemy import Column, String, ForeignKey
 from sqlalchemy.sql.expression import string
 
 
