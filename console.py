@@ -13,6 +13,9 @@ from models.city import City
 from models.amenity import Amenity
 from models.review import Review
 import shlex
+from sqlalchemy import Column, ForeignKey
+from sqlalchemy.sql.expression import string
+
 
 
 class HBNBCommand(cmd.Cmd):
@@ -130,7 +133,7 @@ class HBNBCommand(cmd.Cmd):
                 print(f"** Class '{class_name}' doesn't exist **")
                 return
 
-            new_instance = self.classesclass_name
+            new_instance = self.classes[class_name]
             new_instance.save()
             print(f"{new_instance.id}")
 
