@@ -9,5 +9,5 @@ class User(BaseModel, Base):
     __tablename__ = 'users' # represents table name, users
     email = Column(String(128), nullable=False) # represents a column containing a string (128 characters); cant be null
     password = Column(String(128), nullable=False)
-    first_name = Column(String(128), nullable=False)
-    last_name = Column(String(128), nullable=False)
+    first_name = Column(String(128), nullable=True)
+    last_name = Column(String(128), nullable=True)
