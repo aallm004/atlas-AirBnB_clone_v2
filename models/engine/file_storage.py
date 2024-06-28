@@ -23,7 +23,7 @@ class FileStorage():
     def file_path(self):
         return self.__file_path
 
-    def all(self):
+    def all(self, cls=None):
         """Returns the dictionary __objects.
         This method provides access to the dictionary "__objects" that
         stores all objects managed by the instance "FileStorage"."""
