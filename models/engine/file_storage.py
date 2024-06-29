@@ -48,6 +48,10 @@ class FileStorage():
                 objects_dict[key] = value.to_dict()
             json.dump(objects_dict, file)
 
+        if not os.pathe.exists(self.__file_path):
+            with open(self.__file_path, "w") as file:
+                json.dump(objects_dict, file)
+        
         with open(objects_dict, "r") as file:
             objects_dict = json.load(file)
 
