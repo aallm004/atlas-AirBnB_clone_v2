@@ -43,7 +43,7 @@ class FileStorage():
         located in "__file_path" variable."""
 
         objects_dict = {}
-        with open(self.__file_path, 'w') as file:
+        with open(self.__file_path, 'w', encoding='utf-8') as file:
             for key, value in self.__objects.items():
                 objects_dict[key] = value.to_dict()
             json.dump(objects_dict, file)
