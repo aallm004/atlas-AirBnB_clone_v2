@@ -48,6 +48,9 @@ class FileStorage():
                 objects_dict[key] = value.to_dict()
             json.dump(objects_dict, file)
 
+        with open(objects_dict, "r") as file:
+            objects_dict = json.load(file)
+
     def reload(self):
         """This method deserializes the JSON file and populates the
         "__objects" dictionary with objects stored in the JSON file."""
