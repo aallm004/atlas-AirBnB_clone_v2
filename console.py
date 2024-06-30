@@ -133,8 +133,8 @@ class HBNBCommand(cmd.Cmd):
                 print(f"** Class '{class_name}' doesn't exist **")
                 return
 
-            new_instance = self.classes[class_name]
-            new_instance.save(new_instance)
+            new_instance = self.classes[class_name](**kwargs)
+            new_instance.save()
             print(f"{new_instance.id}")
 
         except (ValueError, Exception) as e:
