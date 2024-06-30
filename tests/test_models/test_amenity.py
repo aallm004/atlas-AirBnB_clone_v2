@@ -1,19 +1,16 @@
 #!/usr/bin/python3
-""" """
-from tests.test_models.test_base_model import test_basemodel
+"""test_amenity"""
+import unittest
+import os
 from models.amenity import Amenity
+from models.engine.file_storage import FileStorage
 
 
-class test_Amenity(test_basemodel):
-    """ """
+class TestAmenity(unittest.TestCase):
+    """Test the class Amenity"""
 
-    def __init__(self, *args, **kwargs):
-        """ """
-        super().__init__(*args, **kwargs)
-        self.name = "Amenity"
-        self.value = Amenity
-
-    def test_name2(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.name), str)
+    def test_amenity(self):
+        """Test the initialization of Amenity class"""
+        amenity = Amenity()
+        self.assertEqual(amenity.name, "")
+        self.assertTrue(hasattr(amenity, "name"))

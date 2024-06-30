@@ -31,7 +31,7 @@ class Place(BaseModel, Base):
         @property
         def reviews(self):
             """
-
+            commentary
             """
             all_reviews = list(models.storage.all(Review).values())
             review_list = [r for r in all_reviews if r.place_id == self.id]

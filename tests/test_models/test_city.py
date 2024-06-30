@@ -1,24 +1,17 @@
 #!/usr/bin/python3
-""" """
-from tests.test_models.test_base_model import test_basemodel
+"""Unit tests for City"""
+import unittest
+import os
 from models.city import City
+from models.engine.file_storage import FileStorage
 
+my_model = City()
 
-class test_City(test_basemodel):
-    """ """
+class TestCity(unittest.TestCase):
+        """tests for Class City"""
 
-    def __init__(self, *args, **kwargs):
-        """ """
-        super().__init__(*args, **kwargs)
-        self.name = "City"
-        self.value = City
-
-    def test_state_id(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.state_id), str)
-
-    def test_name(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.name), str)
+        def test_city(self):
+            """unit tests for City"""
+            city = City()
+            self.assertIsInstance(city.state_id, str)
+            self.assertIsInstance(city.name, str)

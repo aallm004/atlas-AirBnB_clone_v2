@@ -1,19 +1,16 @@
 #!/usr/bin/python3
-""" """
-from tests.test_models.test_base_model import test_basemodel
+"""test_state"""
+import unittest
+import os
 from models.state import State
+from models.engine.file_storage import FileStorage
 
 
-class test_state(test_basemodel):
-    """ """
+class TestState(unittest.TestCase):
+    """Test the class State"""
 
-    def __init__(self, *args, **kwargs):
-        """ """
-        super().__init__(*args, **kwargs)
-        self.name = "State"
-        self.value = State
-
-    def test_name3(self):
-        """ """
-        new = self.value()
-        self.assertEqual(type(new.name), str)
+    def test_init(self):
+        """Unit tests """
+        state = State()
+        self.assertTrue(hasattr(state, "name"))
+        self.assertEqual(state.name, "")
