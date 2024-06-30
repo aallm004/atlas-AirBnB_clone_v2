@@ -42,11 +42,10 @@ class FileStorage():
         """This method serializes __objects to the JSON file path
         located in "__file_path" variable."""
 
-        objects_dict = {}
-        with open(self.__file_path, 'w', encoding='utf-8') as file:
-            for key, value in self.__objects.items():
-                objects_dict[key] = value.to_dict()
-            json.dump(objects_dict, file)
+        dict = FileStorage.__objects
+        obj_dict = {obj: dict[obj].to_dict() for obj in dict.keys()}
+        with open(FileStorage.__file_path, "w") as f:
+            json.dump(obj_dict, f)
 
     def reload(self):
         """This method deserializes the JSON file and populates the
