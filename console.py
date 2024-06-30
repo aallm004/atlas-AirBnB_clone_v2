@@ -134,7 +134,7 @@ class HBNBCommand(cmd.Cmd):
                 return
 
             new_instance = self.classes[class_name]
-            new_instance.save()
+            new_instance.save(new_instance)
             print(f"{new_instance.id}")
 
         except (ValueError, Exception) as e:
