@@ -1,11 +1,22 @@
 #!/usr/bin/python3
 from sqlalchemy import create_engine
 from models.base_model import Basemodel, Base
+from os import getenv
 import os
 import models
-from models import classes
+from models.city import City
+from models.place import Place
+from models.review import Review
+from models.state import State
+from models.user import User
+from models.amenity import Amenity
 from models.engine.file_storage import FileStorage
+from sqlalchemy.orm import sessionmaker, scoped_session
 
+classes = {"Amenity": Amenity, "City": City,
+           "Place": Place, "Review": Review, "State": State, "User": User}
+
+"""DBStorage class for interacting with MySQL database"""
 class DBStorage:
     """what do"""
     __engine = None
@@ -55,6 +66,14 @@ class DBStorage:
         """Delete from the database"""
         if obj:
             self.__session.delete(obj)
+
+    def reload(self):
+        """Create all tables in database"""
+
+        Base.metadata.create_all(self.__engine)
+        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        Session = scoped_session(session_factory)
+        self.__session = Session
 
     @property
     def file_storage(self):
