@@ -20,3 +20,4 @@ class User(BaseModel, Base):
     # The 'backref' attribute ensures that each Place object will have a reference to its User via the 'User' attribute.
     # The 'cascade' attribute ensures that all Place objects linked to a User will be automatically deleted if the User is deleted.
     places = relationship('Place', backref='user', cascade='all, delete-orphan')
+    reviews = relationship('Review', backref='user', cascade='all, delete-orphan')
