@@ -55,3 +55,6 @@ class Place(BaseModel, Base):
         return amenity_list
     
         @property.setter
+        def amenities(self, value):
+            """
+            """
