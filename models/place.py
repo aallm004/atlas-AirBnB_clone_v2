@@ -8,6 +8,8 @@ from models.base_model import BaseModel, Base
 import models
 from models.review import Review
 
+association_table = Table
+
 
 class Place(BaseModel, Base):
     """ A place to stay """
