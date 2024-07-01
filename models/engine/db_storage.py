@@ -16,14 +16,15 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
+
 """DBStorage class for interacting with MySQL database"""
 class DBStorage:
     """what do"""
     __engine = None
     __session = None
     __file_storagee = FileStorage()
-    
-    
+
+
     def __init__(self):
         """Initialize DBStorage"""
         self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".format(

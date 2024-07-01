@@ -29,7 +29,7 @@ class FileStorage():
         stores all objects managed by the instance "FileStorage"."""
         if not cls:
             return self.__objects
-        elif type(cls) == str:
+        elif type(cls) is str:
             return {k: v for k, v in self.__objects.items()
                     if v.__class__.__name__ == cls}
         else:
