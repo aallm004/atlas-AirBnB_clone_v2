@@ -9,9 +9,9 @@ from sqlalchemy import relationship
 
 class User(BaseModel, Base):
     """This class defines a user by various attributes"""
-    # Defines the name of the table in the database that will store User records
+    # Defines the name of the table in the database that will store User record
     __tablename__ = 'users'
-     # represents a column containing a string (128 characters); cant be null
+    # represents a column containing a string (128 characters); cant be null
     email = Column(String(128), nullable=False)
     password = Column(String(128), nullable=False)
     first_name = Column(String(128), nullable=True)
@@ -23,5 +23,7 @@ class User(BaseModel, Base):
     # reference to its User via the 'User' attribute.
     # The 'cascade' attribute ensures that all Place objects linked to a
     # User will be automatically deleted if the User is deleted.
-    places = relationship('Place', backref='user', cascade='all, delete-orphan')
-    reviews = relationship('Review', backref='user', cascade='all, delete-orphan')
+    places = relationship('Place', backref='user',
+                          cascade='all, delete-orphan')
+    reviews = relationship('Review', backref='user',
+                           cascade='all, delete-orphan')
