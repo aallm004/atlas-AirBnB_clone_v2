@@ -12,7 +12,7 @@ from models.amenity import Amenity
 association_table = Table('place_amenity', Base.metadata,
                           Column('place_id', String(60), ForeignKey('places.id'), 
                           primary_key=True, nullable=False),
-                          Column('amenity_id', String(60), ForeignKey('places.id'), 
+                          Column('amenity_id', String(60), ForeignKey('amenities.id'), 
                                 primary_key=True, nullable=False))
 
 
@@ -33,8 +33,8 @@ class Place(BaseModel, Base):
     longitude = Column(Float)
     reviews = relationship('Review', backref='place',
                            cascade='all, delete-orphan')
-    amenities = relationship('Amenity', secondary='place_amenity', viewonly=False,
-    overlaps='place_amenities')
+    
+    amenities = relationship('Amenity', secondary='place_amenity', viewonly=False)
     amenity_ids = []
 
     if getenv('HBNB_TYPE_STORAGE') != 'db':
@@ -57,7 +57,6 @@ class Place(BaseModel, Base):
     
         @property.setter
         def amenities(self, value):
-            """
-            """
+            """adds an Amenity.id to the amenity_id att"""
             if isinstance(value, Amenity):
                 self.amenity_ids.append(value.id)
