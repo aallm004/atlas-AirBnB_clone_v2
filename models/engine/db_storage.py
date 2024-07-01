@@ -17,7 +17,6 @@ classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
 
-
 class DBStorage:
     """DBStorage class for interacting with MySQL database"""
     __engine = None
@@ -32,20 +31,20 @@ class DBStorage:
                                       os.environ['HBNB_MYSQL_HOST'],
                                       os.environ['HBNB_MYSQL_DB'])
                                         pool_pre_ping=True)
-        if os.getenv('HBNB_ENV') == 'test':
-            Base.metadata.drop_all(self.__engine)
+        if os.getenv('HBNB_ENV') == 'test': Base.metadata.drop_all(self. \
+                                                                   __engine)
 
     def all(self, cls=None):
         """Query all objects from the database"""
         objects = {}
         if cls:
-            #If class is specified, all objects of that class are queried
+            # If class is specified, all objects of that class are queried
             query_results = self.__session.query(classes[cls]).all()
             for objects in query_results:
                 key = f"{cls.__name__}.{obj.id}"
                 objects[key] = obj
         else:
-            #If no class is specified, objects of all classes are queried
+            # If no class is specified, objects of all classes are queried
             query_result = []
             for model_class in classes.values():
                 query_result = (self.__session.query(model_class).all())
@@ -53,7 +52,7 @@ class DBStorage:
                     key = f"{obj.__class__.__name__}.{obj.id}"
                     objects[key] = obj
                 return objects
-                                
+     
     def new(self, obj):
         """Add the object to the database session"""
         self.__session.add(obj)
@@ -71,7 +70,8 @@ class DBStorage:
         """Create all tables in database"""
 
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self.__engine, expire_on_commit=False)
+        session_factory = sessionmaker(bind=self. \
+                                       __engine, expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session
 
@@ -79,7 +79,7 @@ class DBStorage:
     def file_storage(self):
         """Getter for file storage"""
         return self.__file_storagee
-    
+
     def close(self):
         """Close the database session"""
         self.__session.close()
