@@ -1,21 +1,29 @@
 #!/usr/bin/python3
-"""test_review"""
-import unittest
-import os
+""" """
+from tests.test_models.test_base_model import test_basemodel
 from models.review import Review
-from models.engine.file_storage import FileStorage
 
 
-class TestReview(unittest.TestCase):
-    """Test the class Review"""
+class test_review(test_basemodel):
+    """ """
 
-    def test_init(self):
-        """unit tests for Review"""
-        review = Review()
-        self.assertTrue(hasattr(review, 'place_id'))
-        self.assertTrue(hasattr(review, 'user_id'))
-        self.assertTrue(hasattr(review, 'text'))
+    def __init__(self, *args, **kwargs):
+        """ """
+        super().__init__(*args, **kwargs)
+        self.name = "Review"
+        self.value = Review
 
-        self.assertEqual(review.place_id, "")
-        self.assertEqual(review.user_id, "")
-        self.assertEqual(review.text, "")
+    def test_text(self):
+        """ """
+        new = self.value(text="too many rats")
+        self.assertEqual(type(new.text), str)
+
+    def test_place_id(self):
+        """ """
+        new = self.value(place_id="1234")
+        self.assertEqual(type(new.place_id), str)
+
+    def test_user_id(self):
+        """ """
+        new = self.value(user_id="123")
+        self.assertEqual(type(new.user_id), str)
