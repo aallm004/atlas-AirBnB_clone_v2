@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """ Place Module for HBNB project """
-# Imports necessary SQLAlchemy classes for defining database schema and data types.
+# Imports necessary SQLAlchemy classes for defining db schema and data types.
 from os import getenv
 from sqlalchemy import (Column, String, ForeignKey, float, Integer)
 from sqlalchemy.orm import relationship
@@ -24,7 +24,8 @@ class Place(BaseModel, Base):
     price_by_night = Column(Integer, default=0)
     latitude = Column(float)
     longitude = Column(float)
-    reviews = relationship('Review', backref='place', cascade='all, delete-orphan')
+    reviews = relationship('Review', backref='place',
+                           cascade='all, delete-orphan')
     amenity_ids = []
 
     if getenv('HBNB_TYPE_STORAGE') != 'db':
