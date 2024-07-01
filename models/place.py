@@ -8,7 +8,7 @@ from models.base_model import BaseModel, Base
 import models
 from models.review import Review
 
-association_table = Table
+association_table = Table('place_amenity')
 
 
 class Place(BaseModel, Base):
