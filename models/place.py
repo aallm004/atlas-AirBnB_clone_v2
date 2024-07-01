@@ -53,3 +53,5 @@ class Place(BaseModel, Base):
             all_amenities = list(models.storage.all(Amenity).values())
            amenity_list = [ a for a in all_amenities if a.id in self.amenity_ids]
         return amenity_list
+    
+        @property.setter
