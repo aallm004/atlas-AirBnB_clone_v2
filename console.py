@@ -2,7 +2,6 @@
 """ Console Module """
 import cmd
 import sys
-import models
 from datetime import datetime
 from models.base_model import BaseModel
 from models.__init__ import storage
@@ -60,7 +59,7 @@ class HBNBCommand(cmd.Cmd):
             # isolate and validate <command>
             _cmd = pline[pline.find('.') + 1:pline.find('(')]
             if _cmd not in HBNBCommand.dot_cmds:
-                raise Exception
+                raise Exceptiongit reset --hard 4a155e5
 
             # if parantheses contain arguments, parse them
             pline = pline[pline.find('(') + 1:pline.find(')')]

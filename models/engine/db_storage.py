@@ -34,7 +34,6 @@ class DBStorage:
                                         pool_pre_ping=True)
         if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
-            
 
     def all(self, cls=None):
         """Query all objects from the database"""
