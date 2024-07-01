@@ -2,7 +2,7 @@
 """ Place Module for HBNB project """
 # Imports necessary SQLAlchemy classes for defining db schema and data types.
 from os import getenv
-from sqlalchemy import (Column, String, ForeignKey, float, Integer)
+from sqlalchemy import (Column, String, ForeignKey, Float, Integer)
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
 import models
@@ -22,8 +22,8 @@ class Place(BaseModel, Base):
     number_bathrooms = Column(Integer, default=0, nullable=False)
     max_guest = Column(Integer, default=0)
     price_by_night = Column(Integer, default=0)
-    latitude = Column(float)
-    longitude = Column(float)
+    latitude = Column(Float)
+    longitude = Column(Float)
     reviews = relationship('Review', backref='place',
                            cascade='all, delete-orphan')
     amenity_ids = []
