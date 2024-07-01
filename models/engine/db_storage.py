@@ -1,9 +1,10 @@
 #!/usr/bin/python3
 from sqlalchemy import create_engine
 from models.base_model import Basemodel, Base
-from os import getenv
 import os
+from os import getenv
 import models
+import sqlalchemy
 from models.city import City
 from models.place import Place
 from models.review import Review
@@ -13,10 +14,21 @@ from models.amenity import Amenity
 from models.engine.file_storage import FileStorage
 from sqlalchemy.orm import sessionmaker, scoped_session
 
+
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
 """DBStorage class for interacting with MySQL database"""
+
+def __init__(self):
+    """Initialize the MySQL Database Storage """
+    db_name = getenv('HBNH_MYSQL_DB')
+    host = getenv('HBNH_MYSQL_HOST', 'localhost')
+    password = getenv('HBNH_MYSQL_PWD')
+    username = getenv('HBNH_MYSQL_USER', 'hbnb_user')
+    connection = f'mysql+mysqldb://{username}:{password}@{host}/{db_name}'
+
+
 class DBStorage:
     """what do"""
     __engine = None
@@ -25,15 +37,8 @@ class DBStorage:
     
     
     def __init__(self):
-        """Initialize DBStorage"""
-        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".format(
-                                        os.environ['HBNB_MYSQL_USER'],
-                                        os.environ['HBNB_MYSQL_PWD'],
-                                        os.environ['HBNB_MYSQL_HOST'],
-                                        os.environ['HBNB_MYSQL_DB'])
-                                        pool_pre_ping=True)
-        if os.getenv('HBNB_ENV') == 'test':
-            Base.metadata.drop_all(self.__engine)
+        """Make obj and conncet to db"""
+        self.__engine = create_engine(connection)
 
     def all(self, cls=None):
         """Query all objects from the database"""
@@ -64,8 +69,8 @@ class DBStorage:
 
     def delete(self, obj=None):
         """Delete from the database"""
-        if obj:
-            self.__session.delete(obj)
+        if obj is None:
+            return self.__session.delete(obj)
 
     def reload(self):
         """Create all tables in database"""
