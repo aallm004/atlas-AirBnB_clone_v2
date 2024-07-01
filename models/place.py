@@ -44,3 +44,9 @@ class Place(BaseModel, Base):
             all_reviews = list(models.storage.all(Review).values())
             review_list = [r for r in all_reviews if r.place_id == self.id]
             return review_list
+        
+        @property
+        def amenities(self):
+            """
+            """
+            
