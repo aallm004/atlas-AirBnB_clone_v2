@@ -33,7 +33,7 @@ class BaseModel:
                 kwargs['updated_at'] = datetime.utcnow()
             else:
                 kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                         '%Y-%m-%dT%H:%M:%S.%f')
+                                                        '%Y-%m-%dT%H:%M:%S.%f')
         if not kwargs.get('created_at'):
             kwargs['created_at'] = datetime.utcnow()
         else:
