@@ -33,19 +33,19 @@ class BaseModel:
                 kwargs['updated_at'] = datetime.utcnow()
             else:
                 kwargs['updated_at'] = datetime.strptime(kwargs['updated_at'],
-                                                        '%Y-%m-%dT%H:%M:%S.%f')
+                                                         '%Y-%m-%dT%H:%M:%S.%f')
         if not kwargs.get('created_at'):
             kwargs['created_at'] = datetime.utcnow()
         else:
             kwargs['created_at'] = datetime.strptime(kwargs['created_at'],
-                                                        '%Y-%m-%dT%H:%M:%S.%f')
+                                                                '%Y-%m-%dT%H:%M:%S.%f')
         if kwargs.get('__class__'):
-                del kwargs['__class__']
+            del kwargs['__class__']
 
         self.id = kwargs.get('id') or str(uuid.uuid4())
 
         self.__dict__.update(kwargs)
-        
+
     def __str__(self):
         """Returns a string representation of the instance"""
         cls = (str(type(self)).split('.')[-1]).split('\'')[0]
@@ -74,4 +74,3 @@ class BaseModel:
         if '_sa_instance_state' in dictionary:
             del dictionary['_sa_instance_state']
         return dictionary
-
