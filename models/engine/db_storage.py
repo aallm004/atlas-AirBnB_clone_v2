@@ -30,9 +30,9 @@ class DBStorage:
                                       os.environ['HBNB_MYSQL_PWD'],
                                       os.environ['HBNB_MYSQL_HOST'],
                                       os.environ['HBNB_MYSQL_DB'])
-                                        pool_pre_ping=True)
-        if os.getenv('HBNB_ENV') == 'test': Base.metadata.drop_all(self. \
-                                                                   __engine)
+                                      pool_pre_ping=True)
+        if os.getenv('HBNB_ENV') == 'test':
+            Base.metadata.drop_all(self.__engine)
 
     def all(self, cls=None):
         """Query all objects from the database"""
@@ -52,7 +52,7 @@ class DBStorage:
                     key = f"{obj.__class__.__name__}.{obj.id}"
                     objects[key] = obj
                 return objects
-     
+
     def new(self, obj):
         """Add the object to the database session"""
         self.__session.add(obj)
@@ -70,8 +70,8 @@ class DBStorage:
         """Create all tables in database"""
 
         Base.metadata.create_all(self.__engine)
-        session_factory = sessionmaker(bind=self. \
-                                       __engine, expire_on_commit=False)
+        session_factory = sessionmaker(bind=self.__engine,
+                                       expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session
 
