@@ -50,3 +50,4 @@ class Place(BaseModel, Base):
             """
             """
             all_amenities = list(models.storage.all(Amenity).values())
+            [ a for a in all_amenities if a.id in self.amenity_ids]
