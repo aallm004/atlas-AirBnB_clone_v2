@@ -2,11 +2,18 @@
 """ Place Module for HBNB project """
 # Imports necessary SQLAlchemy classes for defining db schema and data types.
 from os import getenv
-from sqlalchemy import (Column, String, ForeignKey, Float, Integer)
+from sqlalchemy import (Column, String, ForeignKey, float, Integer, Table)
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
 import models
 from models.review import Review
+from models.amenity import Amenity
+
+association_table = Table('place_amenity', Base.metadata,
+                          Column('place_id', String(60), ForeignKey('places.id'), 
+                          primary_key=True, nullable=False),
+                          Column('amenity_id', String(60), ForeignKey('places.id'), 
+                                primary_key=True, nullable=False))
 
 
 class Place(BaseModel, Base):
@@ -26,6 +33,8 @@ class Place(BaseModel, Base):
     longitude = Column(Float)
     reviews = relationship('Review', backref='place',
                            cascade='all, delete-orphan')
+    amenities = relationship('Amenity', secondary='place_amenity', viewonly=False,
+    overlaps='place_amenities')
     amenity_ids = []
 
     if getenv('HBNB_TYPE_STORAGE') != 'db':
@@ -37,3 +46,18 @@ class Place(BaseModel, Base):
             all_reviews = list(models.storage.all(Review).values())
             review_list = [r for r in all_reviews if r.place_id == self.id]
             return review_list
+        
+        @property
+        def amenities(self):
+            """
+            """
+            all_amenities = list(models.storage.all(Amenity).values())
+            amenity_list = [ a for a in all_amenities if a.id in self.amenity_ids]
+            return amenity_list
+    
+        @property.setter
+        def amenities(self, value):
+            """
+            """
+            if isinstance(value, Amenity):
+                self.amenity_ids.append(value.id)
