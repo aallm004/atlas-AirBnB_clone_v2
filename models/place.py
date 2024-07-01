@@ -55,7 +55,7 @@ class Place(BaseModel, Base):
             amenity_list = [ a for a in all_amenities if a.id in self.amenity_ids]
             return amenity_list
     
-        @property.setter
+        @property
         def amenities(self, value):
             """adds an Amenity.id to the amenity_id att"""
             if isinstance(value, Amenity):
