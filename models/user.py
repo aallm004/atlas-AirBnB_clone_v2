@@ -4,8 +4,8 @@ import models
 from models.base_model import BaseModel, Base
 import sqlalchemy
 from sqlalchemy import Column, String
-from sqlalchemy import relationship
 import os
+import sqlalchemy.orm
 
 
 class User(BaseModel, Base):
