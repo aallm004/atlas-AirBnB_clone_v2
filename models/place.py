@@ -9,7 +9,7 @@ import models
 from models.review import Review
 
 association_table = Table('place_amenity', Base.metadata,
-                          Column('place_id', ))
+                          Column('place_id', String))
 
 
 class Place(BaseModel, Base):
