@@ -6,7 +6,7 @@ from sqlalchemy import Column, String, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from datetime import datetime
 from os import getenv
-import subprocess
+
 
 time = "%Y-%m-%dT%H:%M:%S.%f"
 
@@ -32,13 +32,13 @@ class BaseModel:
             if not kwargs.get('updated_at'):
                 kwargs['updated_at'] = datetime.utcnow()
             else:
-                kwargs['updated_at'] = datetime.strptime
-                (kwargs['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
+                kwargs['updated_at'] = datetime. \
+                    strptime(kwargs['updated_at'], '%Y-%m-%dT%H:%M:%S.%f')
         if not kwargs.get('created_at'):
             kwargs['created_at'] = datetime.utcnow()
         else:
-            kwargs['created_at'] = datetime.strptime
-            (kwargs['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
+            kwargs['created_at'] = datetime. \
+                strptime(kwargs['created_at'], '%Y-%m-%dT%H:%M:%S.%f')
         if kwargs.get('__class__'):
             del kwargs['__class__']
 
