@@ -49,4 +49,4 @@ class Place(BaseModel, Base):
         def amenities(self):
             """
             """
-            
+            all_amenities = list(models.storage.all(Amenity).values())
