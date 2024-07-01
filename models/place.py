@@ -2,7 +2,7 @@
 """ Place Module for HBNB project """
 # Imports necessary SQLAlchemy classes for defining db schema and data types.
 from os import getenv
-from sqlalchemy import (Column, String, ForeignKey, float, Integer, Table)
+from sqlalchemy import (Column, String, ForeignKey, Float, Integer, Table)
 from sqlalchemy.orm import relationship
 from models.base_model import BaseModel, Base
 import models
