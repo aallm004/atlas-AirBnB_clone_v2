@@ -1,85 +1,118 @@
 #!/usr/bin/python3
-"""This module defines the class FileStorage"""
-import os
-import json
+""" Module for testing file storage"""
+import unittest
 from models.base_model import BaseModel
-from models.user import User
 from models.state import State
-from models.city import City
-from models.amenity import Amenity
-from models.place import Place
-from models.review import Review
+from models import storage
+import os
+import models
 
 
-class FileStorage():
-    """File Storage Class to manage serialization
-    and deserialization of objects to and from a JSON file"""
+class test_fileStorage(unittest.TestCase):
+    """ Class to test the file storage method """
 
-    # Private attributes
-    __file_path = "file.json"
-    __objects = {}
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "not testing file storage")
+    def setUp(self):
+        """ Set up test environment """
+        del_list = []
+        for key in storage._FileStorage__objects:
+            del_list.append(key)
+        for key in del_list:
+            del storage._FileStorage__objects[key]
 
-    @property
-    def file_path(self):
-        return self.__file_path
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "not testing file storage")
+    def tearDown(self):
+        """ Remove storage file at end of tests """
+        try:
+            os.remove('file.json')
+        except:
+            pass
 
-    def all(self, cls=None):
-        """Returns the dictionary __objects.
-        This method provides access to the dictionary "__objects" that
-        stores all objects managed by the instance "FileStorage"."""
-        if not cls:
-            return self.__objects
-        elif type(cls) is str:
-            return {k: v for k, v in self.__objects.items()
-                    if v.__class__.__name__ == cls}
-        else:
-            return {k: v for k, v in self.__objects.items()
-                    if v.__class__ == cls}
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "not testing file storage")
+    def test_obj_list_empty(self):
+        """ __objects is initially empty """
+        self.assertEqual(len(storage.all()), 0)
 
-    def new(self, obj):
-        """This method adds a new object to the __objects dictionary.
-        The object's key isthe class name with object's ID separated
-        by a period. The object is the value."""
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "not testing file storage")
+    def test_new(self):
+        """ New object is correctly added to __objects """
+        initial_count = len(storage.all())
+        new = State(name="Tulsa")
+        self.assertEqual(len(storage.all()), initial_count)
 
-        key = "{}.{}".format(obj.__class__.__name__, obj.id)
-        self.__objects[key] = obj
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "not testing file storage")
+    def test_all(self):
+        """ __objects is properly returned """
+        new = BaseModel()
+        temp = storage.all()
+        self.assertIsInstance(temp, dict)
 
-    def save(self):
-        """This method serializes __objects to the JSON file path
-        located in "__file_path" variable."""
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "not testing file storage")
+    def test_base_model_instantiation(self):
+        """ File is not created on BaseModel save """
+        new = BaseModel()
+        self.assertFalse(os.path.exists('file.json'))
 
-        dict = FileStorage.__objects
-        obj_dict = {obj: dict[obj].to_dict() for obj in dict.keys()}
-        with open(FileStorage.__file_path, "w") as f:
-            json.dump(obj_dict, f)
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "not testing file storage")
+    def test_empty(self):
+        """ Data is saved to file """
+        new = BaseModel()
+        thing = new.to_dict()
+        new.save()
+        new2 = BaseModel(**thing)
+        self.assertNotEqual(os.path.getsize('file.json'), 0)
 
-    def reload(self):
-        """This method deserializes the JSON file and populates the
-        "__objects" dictionary with objects stored in the JSON file."""
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "not testing file storage")
+    def test_save(self):
+        """ FileStorage save method """
+        new = BaseModel()
+        storage.save()
+        self.assertTrue(os.path.exists('file.json'))
 
-        if os.path.isfile(self.__file_path):
-            with open(self.__file_path, "r") as file:
-                objects_dict = json.load(file)
-            for key, value in objects_dict.items():
-                cls_name = value["__class__"]
-                if cls_name == "BaseModel":
-                    self.__objects[key] = BaseModel(**value)
-                elif cls_name == "User":
-                    self.__objects[key] = User(**value)
-                elif cls_name == "State":
-                    self.__objects[key] = State(**value)
-                elif cls_name == "City":
-                    self.__objects[key] = City(**value)
-                elif cls_name == "Amenity":
-                    self.__objects[key] = Amenity(**value)
-                elif cls_name == "Place":
-                    self.__objects[key] = Place(**value)
-                elif cls_name == "Review":
-                    self.__objects[key] = Review(**value)
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "not testing file storage")
+    def test_reload(self):
+        """ Storage file is successfully loaded to __objects """
+        new = BaseModel()
+        storage.save()
+        storage.reload()
+        loaded = BaseModel()
+        for obj in storage.all().values():
+            loaded = obj
+        self.assertEqual(type(new.to_dict()['id']),
+                         type(loaded.to_dict()['id']))
 
-    def delete(self, obj=None):
-        """Deletes an object from storage"""
-        if obj is None:
-            return
-        key = obj.to_dict()['__class__'] + '.' + obj.id
-        del self.all()[key]
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "not testing file storage")
+    def test_reload_empty(self):
+        """ Load from an empty file """
+        with open('file.json', 'w') as f:
+            pass
+        with self.assertRaises(ValueError):
+            storage.reload()
+
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "not testing file storage")
+    def test_reload_from_nonexistent(self):
+        """ Nothing happens if file does not exist """
+        self.assertEqual(storage.reload(), None)
+
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "not testing file storage")
+    def test_base_model_save(self):
+        """ BaseModel save method calls storage save """
+        new = BaseModel()
+        new.save()
+        self.assertTrue(os.path.exists('file.json'))
+
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "not testing file storage")
+    def test_type_path(self):
+        """ Confirm __file_path is string """
+        self.assertEqual(type(storage._FileStorage__file_path), str)
+
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "not testing file storage")
+    def test_type_objects(self):
+        """ Confirm __objects is a dict """
+        self.assertEqual(type(storage.all()), dict)
+
+    @unittest.skipIf(os.getenv('HBNB_TYPE_STORAGE') == 'db', "not testing file storage")
+    def test_storage_var_created(self):
+        """ FileStorage object storage created """
+        from models.engine.file_storage import FileStorage
+        self.assertEqual(type(storage), FileStorage)
