@@ -41,14 +41,13 @@ class DBStorage:
         if cls:
             # If class is specified, all objects of that class are queried
             query_results = self.__session.query(classes[cls]).all()
-            for objects in query_results:
+            for obj in query_results:
                 key = f"{cls.__name__}.{obj.id}"
                 objects[key] = obj
         else:
             # If no class is specified, objects of all classes are queried
-            query_result = []
             for model_class in classes.values():
-                query_result = (self.__session.query(model_class).all())
+                query_result = self.__session.query(model_class).all()
                 for obj in query_result:
                     key = f"{obj.__class__.__name__}.{obj.id}"
                     objects[key] = obj
