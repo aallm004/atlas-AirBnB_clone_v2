@@ -35,8 +35,9 @@ class Place(BaseModel, Base):
     longitude = Column(Float)
     reviews = relationship('Review', backref='place',
                            cascade='all, delete-orphan')
-    
-    amenities = relationship('Amenity', secondary='place_amenity', viewonly=False) # correct this
+
+    amenities = relationship('Amenity', secondary='place_amenity',
+                             viewonly=False)
     amenity_ids = []
 
     if getenv('HBNB_TYPE_STORAGE') != 'db':
@@ -48,20 +49,22 @@ class Place(BaseModel, Base):
             all_reviews = list(models.storage.all(Review).values())
             review_list = [r for r in all_reviews if r.place_id == self.id]
             return review_list
-        
+
         @property
         def amenities(self):
             """
-            Returns the list of Amenity instances based on the attribute amenity_ids.
+            Returns list of Amenity instances based on attribute amenity_ids.
             """
             all_amenities = list(models.storage.all(Amenity).values())
-            amenity_list = [ a for a in all_amenities if a.id in self.amenity_ids]
+            amenity_list = [a for a in all_amenities if
+                            a.id in self.amenity_ids]
             return amenity_list
-    
+
         @amenities.setter
         def amenities(self, value):
             """Adds an Amenity.id to the amenity_id attribute."""
             if isinstance(value, Amenity):
                 self.amenity_ids.append(value.id)
             else:
-                pass # Optionally, log a warning or handle invalid input as needed
+                # Optionally, log a warning or handle invalid input as needed
+                pass
