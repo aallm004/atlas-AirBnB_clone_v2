@@ -1,5 +1,8 @@
 #!/usr/bin/python3
-""" """
+"""
+Unit tests for Review class in models/review.py
+"""
+import unittest
 from tests.test_models.test_base_model import test_basemodel
 from models.review import Review
 
@@ -14,16 +17,37 @@ class test_review(test_basemodel):
         self.value = Review
 
     def test_text(self):
-        """ """
+        """
+        Test is 'text' attribute is of type str
+        """
         new = self.value(text="too many rats")
         self.assertEqual(type(new.text), str)
 
     def test_place_id(self):
-        """ """
+        """
+        Test is 'place_id' attribute is of type str.
+        """
         new = self.value(place_id="1234")
         self.assertEqual(type(new.place_id), str)
 
     def test_user_id(self):
-        """ """
+        """
+        Test is 'user_id' attribute is of type str.
+        """
         new = self.value(user_id="123")
         self.assertEqual(type(new.user_id), str)
+    
+    def test_text_not_nullable(self):
+        """
+        Test if 'text' attribute is non-nullable
+        """
+        with self.assertRaises(TypeError):
+            new_review = self.value(text=None)
+    
+    def test_place_id_not_nullable(self):
+        """
+        Test if 'place_id' attribute is non-nullable
+        """
+        with self.assertRaises(TypeError):
+            new_review = self.value(place_id=None)
+
