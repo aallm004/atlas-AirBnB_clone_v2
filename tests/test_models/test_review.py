@@ -58,5 +58,11 @@ class test_review(test_basemodel):
         long_text = "a" * 1025 # Exceeds maximum length of 1024
         with self.assertRaises(ValueError):
             new_review = self.value(text=long_text)
-        
-        
+
+    def test_review_place_relationship(self):
+        """
+        Test relationship between Review and Place
+        """
+        new_place = Place()
+        new_review = self.value(place_id=new_place.id)
+        self.assertEqual(new_review.place_id, new_place.id)
