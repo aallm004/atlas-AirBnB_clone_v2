@@ -50,4 +50,13 @@ class test_review(test_basemodel):
         """
         with self.assertRaises(TypeError):
             new_review = self.value(place_id=None)
-
+        
+    def test_text_max_length(self):
+        """
+        Test if 'text' attribute does not exceed maximum length
+        """
+        long_text = "a" * 1025 # Exceeds maximum length of 1024
+        with self.assertRaises(ValueError):
+            new_review = self.value(text=long_text)
+        
+        
