@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 from sqlalchemy import create_engine
-from models.base_model import Basemodel, Base
+from models.base_model import BaseModel, Base
 from os import getenv
 import os
 import models
@@ -21,6 +21,7 @@ class DBStorage:
     """DBStorage class for interacting with MySQL database"""
     __engine = None
     __session = None
+    __objects = {}
     __file_storagee = FileStorage()
 
     def __init__(self):
@@ -29,7 +30,7 @@ class DBStorage:
                                       format(os.environ['HBNB_MYSQL_USER'],
                                              os.environ['HBNB_MYSQL_PWD'],
                                              os.environ['HBNB_MYSQL_HOST'],
-                                             os.environ['HBNB_MYSQL_DB'])
+                                             os.environ['HBNB_MYSQL_DB']),
                                              pool_pre_ping=True)
         if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
@@ -56,6 +57,8 @@ class DBStorage:
     def new(self, obj):
         """Add the object to the database session"""
         self.__session.add(obj)
+        key = "{}.{}".format(obj.__class__.__name__, obj.id)
+        self.__objects[key] = obj
 
     def save(self):
         """Commit all changes of the current database session"""
