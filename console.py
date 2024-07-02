@@ -13,7 +13,10 @@ from models.amenity import Amenity
 from models.review import Review
 import shlex
 from sqlalchemy import Column, ForeignKey
-
+classes = {'BaseModel': BaseModel, 'User': User, 'Place': Place,
+               'State': State, 'City': City, 'Amenity': Amenity,
+               'Review': Review
+              }
 
 class HBNBCommand(cmd.Cmd):
     """ Contains the functionality for the HBNB console"""
@@ -214,10 +217,13 @@ class HBNBCommand(cmd.Cmd):
             return
 
         key = c_name + "." + c_id
-
+        
         try:
-            del (storage.all()[key])
-            storage.save()
+            for k, v in storage.all().items():
+                if k == key:
+                    print("Deleting")
+                    storage.delete(v)
+                    storage.save()
         except KeyError:
             print("** no instance found **")
 
