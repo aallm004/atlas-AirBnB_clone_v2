@@ -66,3 +66,12 @@ class test_review(test_basemodel):
         new_place = Place()
         new_review = self.value(place_id=new_place.id)
         self.assertEqual(new_review.place_id, new_place.id)
+    
+    def test_review_user_relationship(self):
+        """
+        Test relationship between Review and User
+        """
+        # Assuming you have a User class and relationship set up
+        new_user = User()
+        new_review = self.value(user_id=new_user.id)
+        self.assertEqual(new_review.user_id, new_user.id)
