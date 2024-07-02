@@ -1,7 +1,12 @@
 #!/usr/bin/python3
 """ """
+import unittest
 from tests.test_models.test_base_model import test_basemodel
 from models.place import Place
+from models.review import Review
+from models.amenity import Amenity
+from models import storage
+
 
 
 class test_Place(test_basemodel):
@@ -67,3 +72,32 @@ class test_Place(test_basemodel):
         """ """
         new = self.value(longitude=1.2)
         self.assertEqual(type(new.longitude), float)
+    
+    def test_reviews_property(self):
+        """Tests the reviews property method."""
+        place = self.value()
+        review1 = Review(place_id=place.id, text="Great place!")
+        review2 = Review(place_id=place.id, text="Needs improvement.")
+        models.storage.new(review1)
+        models.storage.new(review2)
+        models.storage.save()
+
+        reviews = place.reviews
+
+        self.assertIn(review1, reviews)
+        self.assertIn(review2, reviews)
+    
+    def test_amenities_property(self):
+        """Tests the amenities property method."""
+    
+    def test_amenities_setter(self):
+        """
+        Tests for amenities setter method to ensure it correctly
+        appends Amenity IDs to the amenity_ids list
+        """
+    
+    def test_invalid_city_id(self):
+        """Tests handling of invalid city_id input."""
+    
+    def test_zero_rooms(self):
+        """Tests creating a Place with zero rooms."""
