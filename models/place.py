@@ -62,4 +62,4 @@ class Place(BaseModel, Base):
             if isinstance(value, Amenity):
                 self.amenity_ids.append(value.id)
             else:
-                pass
+                pass # Optionally, log a warning or handle invalid input as needed
