@@ -50,13 +50,16 @@ class Place(BaseModel, Base):
         @property
         def amenities(self):
             """
+            Returns the list of Amenity instances based on the attribute amenity_ids.
             """
             all_amenities = list(models.storage.all(Amenity).values())
             amenity_list = [ a for a in all_amenities if a.id in self.amenity_ids]
             return amenity_list
     
-        @property
+        @amenities.setter
         def amenities(self, value):
-            """adds an Amenity.id to the amenity_id att"""
+            """Adds an Amenity.id to the amenity_id attribute."""
             if isinstance(value, Amenity):
                 self.amenity_ids.append(value.id)
+            else:
+                pass
