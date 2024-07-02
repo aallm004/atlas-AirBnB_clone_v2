@@ -5,7 +5,9 @@ from tests.test_models.test_base_model import test_basemodel
 from models.place import Place
 from models.review import Review
 from models.amenity import Amenity
+import models
 from models import storage
+
 
 
 
@@ -78,7 +80,7 @@ class test_Place(test_basemodel):
         place = self.value()
         review1 = Review(place_id=place.id, text="Great place!")
         review2 = Review(place_id=place.id, text="Needs improvement.")
-        models.storage.new(review1)
+        models.storage.new(review1) # something needs to be fixed
         models.storage.new(review2)
         models.storage.save()
 
@@ -89,15 +91,46 @@ class test_Place(test_basemodel):
     
     def test_amenities_property(self):
         """Tests the amenities property method."""
+        # Setup: Create a Place instance with a known set of Amenities
+        place = self.value()
+        amenity1 = Amenity(place_id=place.id, name="Wifi")
+        amenity2 = Amenity(place_id=place.id, name="Kitchen")
+        models.storage.new(amenity1)
+        models.storage.new(amenity2)
+        models.storage.save()
+
+        # Test: Access the amenities property
+        amenities = place.amenities
+
+        # Assertions: Verify that the correct Amenities are returned
+        self.assertIn(amenity1, amenities)
+        self.assertIn(amenity2, amenities)
     
     def test_amenities_setter(self):
         """
         Tests for amenities setter method to ensure it correctly
         appends Amenity IDs to the amenity_ids list
         """
+        # Setup: Create a Place instance
+        place = self.value()
+
+        # Test: Set amenities using the setter
+        amenity = Amenity(name="Pool")
+        place.amenities = amenity
+
+        # Assertions: Verify that the amenity ID was added to amenity_ids
+        self.assertIn(amenity.id, place.amenity_ids)
     
     def test_invalid_city_id(self):
         """Tests handling of invalid city_id input."""
+        # Attempt to create a Place with an invalid city_id
+        with self.assertRaises(ValueError):
+            place = self.value(city_id=12345)
     
     def test_zero_rooms(self):
         """Tests creating a Place with zero rooms."""
+        # Attempt to create a Place with zero rooms
+        place = self.value(number_rooms=0)
+
+        # Assertions: Verify that the number_rooms attribute is correctly set
+        self.assertEqual(place.number_rooms, 0)
