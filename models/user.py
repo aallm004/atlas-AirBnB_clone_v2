@@ -12,8 +12,8 @@ class User(BaseModel, Base):
     # Defines the name of the table in the database that will store User record
     __tablename__ = 'users'
     # represents a column containing a string (128 characters); cant be null
-    email = Column(String(128), nullable=False)
-    password = Column(String(128), nullable=False)
+    email = Column(String(128), nullable=True)
+    password = Column(String(128), nullable=True)
     first_name = Column(String(128), nullable=True)
     last_name = Column(String(128), nullable=True)
     # Defines a relationship between User model and the Place model
