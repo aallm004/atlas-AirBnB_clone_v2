@@ -4,7 +4,7 @@ import cmd
 import sys
 from datetime import datetime
 from models.base_model import BaseModel
-from models.__init__ import storage
+from models import storage
 from models.user import User
 from models.place import Place
 from models.state import State
@@ -168,11 +168,13 @@ class HBNBCommand(cmd.Cmd):
         new = args.partition(" ")
         c_name = new[0]
         c_id = new[2]
-
+        
+        instance_key = f"{c_name}.{c_id}"
         # guard against trailing args
         if c_id and ' ' in c_id:
             c_id = c_id.partition(' ')[0]
-
+            instance_key = f"{c_name}.{c_id}"
+            print(instance_key)
         if not c_name:
             print("** class name missing **")
             return
@@ -185,9 +187,8 @@ class HBNBCommand(cmd.Cmd):
             print("** instance id missing **")
             return
 
-        key = c_name + "." + c_id
         try:
-            print(storage.__objects[key])
+            print(storage.all()[instance_key])
         except KeyError:
             print("** no instance found **")
 
@@ -273,48 +274,66 @@ class HBNBCommand(cmd.Cmd):
         Example: update State 123 name "California"
         """
         args = shlex.split(arg)
+        att_val = ''
+        att_name = ''
+        instance_key = ''
 
         # Check if there are enough arguments
-        if len(args) < 3:
+        if len(args) < 4:
             print(f"** Missing arguments ({len(args)}) **")
             return
 
         # Extract relevant arguments
         class_name, instance_id, attr_name, attr_value = args[:4]
+
+        # Generate instance_key and class_name_str
+        class_name_str = list(self.classes.keys())[list(self.classes.values()).index(self.classes[class_name])]
         instance_key = f"{class_name}.{instance_id}"
 
+
         # Check if the instance exists
-        if instance_key not in storage.all():
+        if instance_key not in storage.all(class_name).keys():
+            print (storage.all(class_name).keys())
             print("** No instance found **")
             return
 
         # Convert attribute value to int or float if needed
-        if attr_name in ["number_rooms", "number_bathrooms", "max_guest", "price_by_night"]:
             try:
                 attr_value = int(attr_value)
             except ValueError:
                 attr_value = 0
-        elif attr_name in ["latitude", "longitude"]:
+        elif att_name in ["latitude", "longitude"]:
             try:
                 attr_value = float(attr_value)
             except ValueError:
                 attr_value = 0.0
 
-        setattr(storage.all()[instance_key], attr_name, attr_value)
+        setattr(storage.all()[instance_key], att_name, attr_value)
         storage.all()[instance_key].save()
 
-        args = args[2].partition(" ")
-        if args[0]:
-            c_id = args[0]
-        else:  # id not present
-            print("** instance id missing **")
-            return
+        print(args)
+        if len(args) == 4:
+            att_name = args[2]
+            att_val = args[3]
+            if att_name and att_val:
+                print ("updating value")
+                setattr(storage.all()[instance_key], att_name, att_val)
+                storage.all()[instance_key].save()
+            elif att_name:
+                print("** 327 value missing **")
+            else:
+                print("** 331 attribute name missing **")
 
             # generate key from class and id
-        key = classes + "." + c_id
+        #class_name_str = list(self.classes.keys())[list(self.classes.values()).index(self.classes[class_name])]
+    
+        #instance_key = f"{class_name}.{instance_key}"
+    
 
             # determine if key is present
-        if key not in storage.all():
+        if instance_key not in storage.all():
+            print(instance_key)
+            print(storage.all().keys())
             print("** no instance found **")
             return
 
@@ -348,7 +367,7 @@ class HBNBCommand(cmd.Cmd):
             args = [att_name, att_val]
 
             # retrieve dictionary of current objects
-            new_dict = storage.all()[key]
+            new_dict = storage.all()[instance_key]
 
             # iterate through attr names and values
             for i, att_name in enumerate(args):
@@ -359,7 +378,7 @@ class HBNBCommand(cmd.Cmd):
                         print("** attribute name missing **")
                         return
                     if not att_val:  # check for att_value
-                        print("** value missing **")
+                        print(f"** 385 value missing{args}**")
                         return
                     # type cast as necessary
                     if att_name in HBNBCommand.types:
