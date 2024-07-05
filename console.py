@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-""" Console Module """
+""" Consol
+e Module """
 import cmd
 import sys
 from datetime import datetime
