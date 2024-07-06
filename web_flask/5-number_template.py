@@ -14,7 +14,7 @@ from flask import Flask, render_template
 app = Flask(__name__)
 
 
-@app.route('/', srict_slashes=False)
+@app.route('/', strict_slashes=False)
 def hello_hnbn():
     return "Hello HBNB!"
 
