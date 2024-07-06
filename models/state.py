@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """ State Module for HBNB project """
 import models
+from models import storage_type
 from models.city import City
 from models.base_model import BaseModel
 from models.base_model import Base
@@ -16,7 +17,7 @@ class State(BaseModel, Base):
     cities = relationship("City", backref="state",
                           cascade="all, delete-orphan")
 
-    if models.storage_type != "db":
+    if storage_type != "db":
         @property
         def cities(self):
             """Getter attribute for cities."""
