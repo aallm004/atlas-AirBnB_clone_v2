@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """
-Script that starts a Flask web application
-port 5000 by default
+start flask web application
+route 1 . Returns a string
  """
 from flask import Flask
 

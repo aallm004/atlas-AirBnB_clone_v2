@@ -1,7 +1,11 @@
 #!/usr/bin/python3
 """
-Script that starts a Flask web application
-port 5000 by default
+start flask web application
+route 1 . Returns a string
+route 2 . Returns the string 'HBNB'
+route 3 . Returns a string 'C' followed by the value of the text variable
+route 4 . Returns a string 'Python' followed by the value of the text variable
+route 5 . Returns a formatted string with the value of n
  """
 from flask import Flask
 
