@@ -83,6 +83,7 @@ class DBStorage:
         Session = scoped_session(session_factory)
         self.__session = Session
 
+
     @property
     def file_storage(self):
         """Getter for file storage"""
@@ -90,4 +91,4 @@ class DBStorage:
 
     def close(self):
         """Close the database session"""
-        self.__session.remove()
+        self.__session.close()
