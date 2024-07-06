@@ -83,3 +83,7 @@ class FileStorage():
             return
         key = obj.to_dict()['__class__'] + '.' + obj.id
         del self.all()[key]
+
+    def close(self):
+        """Calls the reload method"""
+        self.reload()
