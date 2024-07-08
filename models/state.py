@@ -40,4 +40,3 @@ def cities(self):
             if city.state_id == self.id:
                 cities.append(city)
     return cities
-
