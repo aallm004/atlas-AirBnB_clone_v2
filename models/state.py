@@ -26,7 +26,7 @@ class State(BaseModel, Base):
 
         @property
         def cities(self):
-            """list of cities in this state"""
+            """documentation kinds of things"""
             from models import City, storage
             listofcities = []
             cities = storage.all(City)
