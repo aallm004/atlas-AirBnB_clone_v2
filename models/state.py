@@ -40,13 +40,3 @@ def cities(self):
             if city.state_id == self.id:
                 listofcities.append(city)
     return listofcities
-
-    def cities(self):
-        """Getter attribute for cities."""
-        from models import City, storage
-        listofcities = []
-        cities = storage.all(City)
-        for city in cities.values():
-            if city.state_id == self.id:
-                listofcities.append(city)
-                return listofcities
