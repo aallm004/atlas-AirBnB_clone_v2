@@ -11,6 +11,7 @@ def close_db(exception=None):
     """Remove the current SQLAlchemy session after each request."""
     storage.close()
 
+
 @app.route('/states_list', strict_slashes=False)
 def display_states():
     """Display a list of State objects sorted by name."""
@@ -19,6 +20,7 @@ def display_states():
     sorted_states = sorted(states, key=lambda s: s.name)
     print(sorted_states)
     return render_template('7-states_list.html', states=sorted_states)
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
