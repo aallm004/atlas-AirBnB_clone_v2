@@ -7,7 +7,6 @@ from models.base_model import Base
 from sqlalchemy import String
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
-from models import storage
 
 storage_type = getenv("HBNB_TYPE_STORAGE")
 
@@ -27,8 +26,7 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """Getter attribute for cities."""
-            from models import City
-
+            from models import City, storage
             cities = []
 
             all_cities = storage.all(City).values()
