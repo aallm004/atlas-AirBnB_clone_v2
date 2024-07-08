@@ -40,9 +40,9 @@ class FileStorage():
         """This method adds a new object to the __objects dictionary.
         The object's key isthe class name with object's ID separated
         by a period. The object is the value."""
-
-        key = "{}.{}".format(obj.__class__.__name__, obj.id)
-        self.__objects[key] = obj
+        if obj is None:
+            key = "{}.{}".format(obj.__class__.__name__, obj.id)
+            self.__objects[key] = obj
 
     def save(self):
         """This method serializes __objects to the JSON file path
