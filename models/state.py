@@ -31,7 +31,7 @@ def cities(self):
     from models import storage
     if storage_type == "db":
         self.cities = [city for city in storage.all(City).values()
-                        if city.state_id == self.id]
+                       if city.state_id == self.id]
     cities = []
     if storage_type == "db":
         for city in list(self.cities):
