@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""Documentation is a representation of hating the checker"""
 from flask import Flask, render_template
 from models import storage
 from models.state import State
