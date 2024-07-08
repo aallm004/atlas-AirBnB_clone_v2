@@ -2,12 +2,12 @@
 """ State Module for HBNB project """
 import models
 from os import getenv
-from models.city import City
 from models.base_model import BaseModel
 from models.base_model import Base
 from sqlalchemy import String
 from sqlalchemy import Column
 from sqlalchemy.orm import relationship
+from models import storage
 
 storage_type = getenv("HBNB_TYPE_STORAGE")
 
@@ -27,17 +27,12 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """Getter attribute for cities."""
-            from models import storage
-            if storage_type == "db":
-                self.cities = [city for city in storage.all(City).values()
-                               if city.state_id == self.id]
+            from models import City
+
             cities = []
-            if storage_type == "db":
-                for city in list(self.cities):
+
+            all_cities = storage.all(City).values()
+            for city in all_cities:
+                if city.state_id == self.id:
                     cities.append(city)
-            else:
-                all_cities = storage.all(City).values()
-                for city in all_cities:
-                    if city.state_id == self.id:
-                        cities.append(city)
             return cities
