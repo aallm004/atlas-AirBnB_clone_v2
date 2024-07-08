@@ -11,19 +11,19 @@ from sqlalchemy.orm import relationship
 
 storage_type = getenv("HBNB_TYPE_STORAGE")
 
+
 class State(BaseModel, Base):
     """ State class """
     __tablename__ = 'states'
 
-
     if storage_type == "db":
         name = Column(String(128), nullable=False)
         cities = relationship("City", backref="state",
-                          cascade="all, delete-orphan")
-    
-    else:  
-        name = ""    
-    
+                              cascade="all, delete-orphan")
+
+    else:
+        name = ""
+
     @property
     def cities(self):
         """Getter attribute for cities."""
@@ -34,4 +34,3 @@ class State(BaseModel, Base):
             if city.state_id == self.id:
                 listofcities.append(city)
                 return listofcities
-                

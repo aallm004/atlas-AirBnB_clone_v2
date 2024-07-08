@@ -26,12 +26,12 @@ class DBStorage:
 
     def __init__(self):
         """Initialize DBStorage"""
-        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}". \
+        self.__engine = create_engine("mysql+mysqldb://{}:{}@{}/{}".
                                       format(os.environ['HBNB_MYSQL_USER'],
                                              os.environ['HBNB_MYSQL_PWD'],
                                              os.environ['HBNB_MYSQL_HOST'],
                                              os.environ['HBNB_MYSQL_DB']),
-                                             pool_pre_ping=True)
+                                      pool_pre_ping=True)
         if os.getenv('HBNB_ENV') == 'test':
             Base.metadata.drop_all(self.__engine)
 
@@ -41,7 +41,7 @@ class DBStorage:
         classes_to_query = [User, State, City, Amenity, Place, Review]
 
         if cls:
-           if isinstance(cls, str):
+            if isinstance(cls, str):
                 cls = eval(cls)
                 query = self.__session.query(cls)
         else:
@@ -82,7 +82,6 @@ class DBStorage:
                                        expire_on_commit=False)
         Session = scoped_session(session_factory)
         self.__session = Session
-
 
     @property
     def file_storage(self):
