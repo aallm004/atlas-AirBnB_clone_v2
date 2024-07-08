@@ -1,4 +1,5 @@
 #!/usr/bin/python3
+"""This is a type of documentation, you see?"""
 from flask import Flask, render_template
 from models import storage
 from models.state import State
