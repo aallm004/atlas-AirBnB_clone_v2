@@ -31,7 +31,7 @@ def cities(self):
     from models import City, storage
     listofcities = []
     if storage_type == "db":
-        cities = self.cities  # Access the SQLAlchemy relationship
+        cities = self.cities
         for city in cities:
             listofcities.append(city)
     else:
