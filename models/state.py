@@ -24,7 +24,23 @@ class State(BaseModel, Base):
     else:
         name = ""
 
-    @property
+
+@property
+def cities(self):
+    """Getter attribute for cities."""
+    from models import City, storage
+    listofcities = []
+    if storage_type == "db":
+        cities = self.cities  # Access the SQLAlchemy relationship
+        for city in cities:
+            listofcities.append(city)
+    else:
+        cities = storage.all(City)
+        for city in cities.values():
+            if city.state_id == self.id:
+                listofcities.append(city)
+    return listofcities
+
     def cities(self):
         """Getter attribute for cities."""
         from models import City, storage
