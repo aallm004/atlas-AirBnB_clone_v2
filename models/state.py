@@ -21,21 +21,14 @@ class State(BaseModel, Base):
     else:
         name = ""
 
-    @property
-    def cities(self):
-        """Getter attribute for cities."""
-        from models import storage
-        from models.city import City
-        cities = []
-        if storage_type == "db":
-            for city in list(self.cities):
-                cities.append(city)
-        else:
-            all_cities = storage.all(City).values()
-            for city in all_cities:
+        @property
+        def cities(self):
+            """Getter attribute for cities."""
+            from models import City, storage
+            cities = []
+
+            all_cities = storage.all(City)
+            for city in all_cities.values():
                 if city.state_id == self.id:
                     cities.append(city)
-                else:
-                    continue
-        return cities
-
+            return cities
