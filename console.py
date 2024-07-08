@@ -153,8 +153,11 @@ class HBNBCommand(cmd.Cmd):
             return
         # Create instance and set attributes
         try:
+            print("print before new_instance")
             new_instance = self.classes[class_name](**kwargs)
+            print("print after new_instance")
             new_instance.save()
+            print("print after save")
             print(new_instance.id)
         except Exception as e:
             print(f"** Error creating instance: {e} **")
