@@ -30,10 +30,11 @@ class FileStorage():
         if not cls:
             return self.__objects
         elif type(cls) is str:
+            return {k: v for k, v in self.__objects.items()
+                    if v.__class__.__name__ == cls}
         else:
             return {k: v for k, v in self.__objects.items()
-                    if isinstance(v, cls)}
-
+                    if v.__class__ == cls}
 
     def new(self, obj):
         """This method adds a new object to the __objects dictionary.
