@@ -49,7 +49,7 @@ class FileStorage():
         located in "__file_path" variable."""
 
         dict = self.__objects
-        print (self.__objects)
+        print(self.__objects)
         obj_dict = {obj: dict[obj].to_dict() for obj in dict.keys()}
         del obj_dict['_sa_instance_state']
         with open(FileStorage.__file_path, "w") as f:
