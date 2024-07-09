@@ -24,7 +24,8 @@ class State(BaseModel, Base):
         @property
         def cities(self):
             """Getter attribute for cities."""
-            from models import City, storage
+            from models import storage
+            from models.city import City
             cities = []
 
             all_cities = storage.all(City)
