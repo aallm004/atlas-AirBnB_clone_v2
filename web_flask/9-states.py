@@ -7,12 +7,14 @@ from models.city import City
 
 app = Flask(__name__)
 
+
 @app.route('/states', strict_slashes=False)
 def states():
     states = storage.all(State).values()
     sorted_states = sorted(states, key=lambda s: s.name)
 
     return render_template('states.html', states=sorted_states)
+
 
 @app.route('/states/<int:id>', strict_slashes=False)
 def state_cities(id):
@@ -23,9 +25,11 @@ def state_cities(id):
     else:
         return '<h1>Not found!</h1>'
 
+
 @app.teardown_appcontext
 def close_session(exception=None):
     storage.close()
+
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

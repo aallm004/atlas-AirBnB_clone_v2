@@ -2,7 +2,6 @@
 """This module instantiates an object of class FileStorage"""
 import os
 
-#Determine the storage type based on the environment variable
 storage_type = os.getenv("HBNB_TYPE_STORAGE")
 
 if storage_type == "db":
