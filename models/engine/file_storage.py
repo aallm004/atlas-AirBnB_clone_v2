@@ -40,7 +40,7 @@ class FileStorage():
         """This method adds a new object to the __objects dictionary.
         The object's key isthe class name with object's ID separated
         by a period. The object is the value."""
-        if obj is None:
+        if obj:
             key = "{}.{}".format(obj.__class__.__name__, obj.id)
             self.__objects[key] = obj
 

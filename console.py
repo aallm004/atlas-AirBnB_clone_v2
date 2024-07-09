@@ -226,6 +226,7 @@ class HBNBCommand(cmd.Cmd):
                     print("Deleting")
                     storage.delete(v)
                     storage.save()
+                    break
         except KeyError:
             print("** no instance found **")
 
@@ -244,6 +245,8 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return
             for k, v in storage.all(args).items():
+                print(k)
+                print(v)
                 if k.split('.')[0] == args:
                     print_list.append(str(v))
         else:
