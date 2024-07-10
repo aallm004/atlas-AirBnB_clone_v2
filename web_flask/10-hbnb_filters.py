@@ -14,14 +14,24 @@ def load_cities(state_id):
 
 @app.route('/hbnb_filters', strict_slashes=False)
 def hbnb_filters():
-    # Load cities (assuming state_id is 1 for example)
-    cities = load_cities(1)  # Replace with the actual state ID
+    """ get the stuff """
+        # Load cities (assuming state_id is 1 for example)
+    from models.city import City
+    cities = storage.all(City).values()
+    sorted_cities = sorted(cities, key=lambda c: c.name)
 
-    # Sort cities by name
-    sorted_cities = sorted(cities, key=lambda city: city.name)
+    from models.state import State
+    states = storage.all(State).values()
+    sorted_states = sorted(states, key=lambda s: s.name)
 
-    # Render the template with the sorted cities
-    return render_template('10-hbnb_filters.html', cities=sorted_cities)
+    from models.amenity import Amenity
+    amenities = storage.all(Amenity).values()
+    sorted_amenities = sorted(amenities, key=lambda a: a.name)
+
+    return render_template('10-hbnb_filters.html',
+                           cities=sorted_cities,
+                           states=sorted_states,
+                           amenities=sorted_amenities)
 
 
 @app.teardown_appcontext

@@ -12,7 +12,6 @@ from models.user import User
 from models.amenity import Amenity
 from models.engine.file_storage import FileStorage
 from sqlalchemy.orm import sessionmaker, scoped_session
-
 classes = {"Amenity": Amenity, "City": City,
            "Place": Place, "Review": Review, "State": State, "User": User}
 
@@ -86,7 +85,7 @@ class DBStorage:
     @property
     def file_storage(self):
         """Getter for file storage"""
-        return self.__file_storagee
+        return self.__file_storage
 
     def close(self):
         """Close the database session"""
