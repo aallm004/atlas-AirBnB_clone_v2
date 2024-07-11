@@ -18,7 +18,7 @@
 	border-right: 1px solid #DDDDDD;
 }
 
-.filter_amenities {
+.amenities {
 	display: inline;
 	vertical-align: middle;
 	height: 100%;
@@ -40,13 +40,18 @@
 
 	border: 1px solid #DDDDDD;
 	border-radius: 4px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+.locations .popover ul li, .amenities .popover li {
+    margin-left: 50px;
 }
 
 .locations:hover .popover {
 	display: inline-block;
 }
 
-.filter_amenities:hover .popover {
+.amenities:hover .popover {
 	display: inline-block;
 }
 
@@ -55,9 +60,6 @@ ul {
 	padding: 0px;
 	padding-bottom: 20px;
 }
-
-li {
-}	
 
 h2 {
 	font-size: 16px;

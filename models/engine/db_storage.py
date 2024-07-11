@@ -38,14 +38,15 @@ class DBStorage:
         """Query all objects from the database"""
         all_dicts = {}
         classes_to_query = [User, State, City, Amenity, Place, Review]
+        query = {}
 
         if cls:
             if isinstance(cls, str):
                 cls = eval(cls)
-                query = self.__session.query(cls)
+            query = self.__session.query(cls).all()
         else:
-            for classes in [State, City, User, Place, Review, Amenity]:
-                query = self.__session.query(classes)
+            for classes in classes_to_query:
+                query = self.__session.query(classes).all()
                 for elem in query:
                     key = "{}.{}".format(type(elem).__name__, elem.id)
                     # del elem.__dict__["_sa_instance_state"]
