@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+        <meta charset="UTF-8"
+
+		<link rel="icon" type="image/x-icon" href="../static/images/icon.png" >
+
+		<link rel="stylesheet" href="../static/styles/4-common.css"/>
+		<link rel="stylesheet" href="../static/styles/3-header.css"/>
+		<link rel="stylesheet" href="../static/styles/3-footer.css"/>
+		<link rel="stylesheet" href="../static/styles/6-filters.css"/>
+	</head>
+    <body>
+        <header>
+            <a href="/">
+                <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo">
+            </a>
+        </header>
+    </body>
+    
+		<div class="container">
+			<section class="filters">
+				<button>Search</button>
+				<div class="locations">
+					<h3>States</h3>
+					<h4>&nbsp;</h4>
+					<ul class="popover">
+						{% for state in states %}
+						<li><h2>{{ state.name }}</h2></li>
+						<UL>
+							{% for city in state.cities %}
+								<li><b>{{ city.name }}</b></li>
+							{% endfor %}
+						</UL>
+					{% endfor %}
+					</ul>
+				</div>
+				<div class="amenities">
+					<h3>Amenities</h3>
+					<h4>&nbsp;</h4>
+					<ul class="popover">
+					{% for amenity in amenities %}
+						<li><b>{{ amenity.name }}</b></li>
+					{% endfor %}
+					</ul>
+				</div>
+
+			</section>
+		</div>
+		<footer>
+			<p>Holberton School</p>
+		</footer>
+	</body>
+</html>
